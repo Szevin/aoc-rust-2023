@@ -1,4 +1,7 @@
-use std::fs;
+use std::{
+    fs,
+    io::{BufRead, BufReader},
+};
 
 use regex::Regex;
 
@@ -19,11 +22,11 @@ impl PairTrait for Pair {
 }
 
 pub fn solve_a(input_file_path: &str) -> u32 {
-    fs::read_to_string(input_file_path)
-        .unwrap()
+    BufReader::new(fs::File::open(input_file_path).unwrap())
         .lines()
         .map(|line| {
-            line.chars()
+            line.unwrap()
+                .chars()
                 .map(|c| match c.to_digit(10) {
                     Some(n) => n,
                     None => 0,
@@ -50,13 +53,12 @@ pub fn solve_a(input_file_path: &str) -> u32 {
 }
 
 pub fn solve_b(input_file_path: &str) -> u32 {
-    fs::read_to_string(input_file_path)
-        .unwrap()
+    BufReader::new(fs::File::open(input_file_path).unwrap())
         .lines()
         .map(|line| {
             Regex::new(r"(oneight|twone|threeight|fiveight|sevenine|eightwo|eighthree|nineight|one|two|three|four|five|six|seven|eight|nine|\d)")
                 .unwrap()
-                .find_iter(line)
+                .find_iter(line.unwrap().as_str())
                 .flat_map(|m| match m.as_str() {
                     "one" => vec![1],
                     "two" => vec![2],

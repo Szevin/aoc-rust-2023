@@ -1,11 +1,11 @@
 use std::fs;
 
 pub fn solve_a(input_file_path: &str) -> u32 {
-    fs::read_to_string(input_file_path).unwrap().lines()
+    BufReader::new(fs::File::open(input_file_path).unwrap()).lines()
 }
 
 pub fn solve_b(input_file_path: &str) -> u32 {
-    fs::read_to_string(input_file_path).unwrap().lines()
+    BufReader::new(fs::File::open(input_file_path).unwrap()).lines()
 }
 
 #[cfg(test)]
