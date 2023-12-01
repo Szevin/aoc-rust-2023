@@ -86,8 +86,7 @@ pub fn solve_b(input_file_path: &str) -> u32 {
                 })
                 .collect::<Vec<u32>>()
         })
-        .map(|v| {
-            println!("{:?}", v);
+        .map(|v|
             v.iter().fold(Pair { first: 0, last: 0 }, |acc, n| match n {
                 0 => acc,
                 _ => match acc.first {
@@ -101,7 +100,7 @@ pub fn solve_b(input_file_path: &str) -> u32 {
                     },
                 },
             })
-        })
+        )
         .map(|f| f.result())
         .sum::<u32>()
 }
