@@ -10,8 +10,8 @@ fn parse_input(input: &str) -> (u32, Vec<(u32, String)>) {
     let game = game
         .split(|c| c == ',' || c == ';')
         .map(|s| s.trim())
-        .map(|ball| {
-            let (amount, color) = ball.split_once(' ').unwrap();
+        .map(|cube| {
+            let (amount, color) = cube.split_once(' ').unwrap();
             let amount = amount.parse::<u32>().unwrap();
             let color = color.to_string();
             (amount, color)
@@ -45,24 +45,24 @@ pub fn solve_b(input_file_path: &str) -> u32 {
             let game = line
                 .1
                 .iter()
-                .fold((0, 0, 0), |acc, ball| match ball.1.as_str() {
+                .fold((0, 0, 0), |acc, cube| match cube.1.as_str() {
                     "red" => {
-                        if ball.0 > acc.0 {
-                            (ball.0, acc.1, acc.2)
+                        if cube.0 > acc.0 {
+                            (cube.0, acc.1, acc.2)
                         } else {
                             acc
                         }
                     }
                     "green" => {
-                        if ball.0 > acc.1 {
-                            (acc.0, ball.0, acc.2)
+                        if cube.0 > acc.1 {
+                            (acc.0, cube.0, acc.2)
                         } else {
                             acc
                         }
                     }
                     "blue" => {
-                        if ball.0 > acc.2 {
-                            (acc.0, acc.1, ball.0)
+                        if cube.0 > acc.2 {
+                            (acc.0, acc.1, cube.0)
                         } else {
                             acc
                         }
