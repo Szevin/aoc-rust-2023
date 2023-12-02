@@ -7,8 +7,10 @@ fn main() {
         panic!("Usage: {} <day> <part>", args[0]);
     }
 
+    let time = std::time::Instant::now();
+
     println!(
-        "{}",
+        "\nResult: {}",
         match args[1].as_str() {
             "1" => match args[2].as_str() {
                 "a" => day1::solve_a(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
@@ -22,5 +24,7 @@ fn main() {
             },
             _ => panic!("Unknown day {}", args[1]),
         }
-    )
+    );
+
+    println!("\nTime: {}s", time.elapsed().as_secs_f32());
 }
