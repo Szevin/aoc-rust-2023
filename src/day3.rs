@@ -151,34 +151,30 @@ pub fn solve_b(input_file_path: &str) -> u32 {
   let numbers = get_numbers_for_valid_chars(&board, ['*'].to_vec());
 
   // only keep numbers, that have a common * adjacent to them
-  let matching_numbers = numbers
-    .iter()
-    .map(|number| {
-      let adjacent_coords =
-        check_coords(&board, number.generate_adjacent_coords(), &['*'].to_vec());
+  let matching_numbers = numbers.iter().map(|number| {
+    let adjacent_coords = check_coords(&board, number.generate_adjacent_coords(), &['*'].to_vec());
 
-      let other_number = numbers.iter().find(|other_number| {
-        if number == *other_number {
-          return false;
-        }
+    let other_number = numbers.iter().find(|other_number| {
+      if number == *other_number {
+        return false;
+      }
 
-        check_coords(
-          &board,
-          other_number.generate_adjacent_coords(),
-          &['*'].to_vec(),
-        )
-        .iter()
-        .any(|coord| adjacent_coords.contains(coord))
-      });
+      check_coords(
+        &board,
+        other_number.generate_adjacent_coords(),
+        &['*'].to_vec(),
+      )
+      .iter()
+      .any(|coord| adjacent_coords.contains(coord))
+    });
 
-      let other_number_value = match other_number {
-        Some(other_number) => other_number.value,
-        None => 0,
-      };
+    let other_number_value = match other_number {
+      Some(other_number) => other_number.value,
+      None => 0,
+    };
 
-      (number.value, other_number_value)
-    })
-    .filter(|(_, other_number_value)| *other_number_value > 0);
+    (number.value, other_number_value)
+  });
 
   matching_numbers.fold(0, |acc, (number_value, other_number_value)| {
     acc + number_value * other_number_value
