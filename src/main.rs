@@ -25,15 +25,19 @@ fn main() {
 
   let key = format!("{}{}", args[1], args[2]);
 
-  let time = std::time::Instant::now();
+  let time;
+  let time_elapsed;
 
   match solvers.get(&key) {
     Some(solver) => {
+      time = std::time::Instant::now();
       let input = format!(".\\src\\input\\day{}.txt", args[1]);
-      println!("\nResult: {}", solver(input.as_str()));
+      let result = solver(input.as_str());
+      time_elapsed = time.elapsed().as_secs_f32();
+      println!("\nResult: {}", result);
     }
     None => panic!("Unknown day or part"),
   }
 
-  println!("\nTime: {}s", time.elapsed().as_secs_f32());
+  println!("\nTime: {}s", time_elapsed);
 }
