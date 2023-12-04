@@ -1,7 +1,11 @@
+use std::collections::HashMap;
+
 mod day1;
 mod day2;
 mod day3;
 mod day4;
+
+type Solver = fn(&str) -> u32;
 
 fn main() {
   let args: Vec<_> = std::env::args().collect();
@@ -9,34 +13,27 @@ fn main() {
     panic!("Usage: {} <day> <part>", args[0]);
   }
 
+  let mut solvers: HashMap<String, Solver> = HashMap::new();
+  solvers.insert("1a".to_string(), day1::solve_a);
+  solvers.insert("1b".to_string(), day1::solve_b);
+  solvers.insert("2a".to_string(), day2::solve_a);
+  solvers.insert("2b".to_string(), day2::solve_b);
+  solvers.insert("3a".to_string(), day3::solve_a);
+  solvers.insert("3b".to_string(), day3::solve_b);
+  solvers.insert("4a".to_string(), day4::solve_a);
+  solvers.insert("4b".to_string(), day4::solve_b);
+
+  let key = format!("{}{}", args[1], args[2]);
+
   let time = std::time::Instant::now();
 
-  println!(
-    "\nResult: {}",
-    match args[1].as_str() {
-      "1" => match args[2].as_str() {
-        "a" => day1::solve_a(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        "b" => day1::solve_b(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        _ => panic!("Unknown part {}", args[2]),
-      },
-      "2" => match args[2].as_str() {
-        "a" => day2::solve_a(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        "b" => day2::solve_b(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        _ => panic!("Unknown part {}", args[2]),
-      },
-      "3" => match args[2].as_str() {
-        "a" => day3::solve_a(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        "b" => day3::solve_b(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        _ => panic!("Unknown part {}", args[2]),
-      },
-      "4" => match args[2].as_str() {
-        "a" => day4::solve_a(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        "b" => day4::solve_b(format!(".\\src\\input\\day{}.txt", args[1]).as_str()),
-        _ => panic!("Unknown part {}", args[2]),
-      },
-      _ => panic!("Unknown day {}", args[1]),
+  match solvers.get(&key) {
+    Some(solver) => {
+      let input = format!(".\\src\\input\\day{}.txt", args[1]);
+      println!("\nResult: {}", solver(input.as_str()));
     }
-  );
+    None => panic!("Unknown day or part"),
+  }
 
   println!("\nTime: {}s", time.elapsed().as_secs_f32());
 }
