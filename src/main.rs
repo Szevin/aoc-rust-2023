@@ -5,6 +5,7 @@ mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 
 type Solver = fn(&str) -> u32;
 
@@ -25,6 +26,8 @@ fn main() {
   solvers.insert("4b".to_string(), day4::solve_b);
   solvers.insert("5a".to_string(), day5::solve_a);
   solvers.insert("5b".to_string(), day5::solve_b);
+  solvers.insert("6a".to_string(), day6::solve_a);
+  solvers.insert("6b".to_string(), day6::solve_b);
 
   let key = format!("{}{}", args[1], args[2]);
 
