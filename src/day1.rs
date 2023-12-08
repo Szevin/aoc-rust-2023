@@ -21,7 +21,7 @@ impl PairTrait for Pair {
   }
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
+pub fn solve_a(input_file_path: &str) -> u64 {
   BufReader::new(fs::File::open(input_file_path).unwrap())
     .lines()
     .map(|line| {
@@ -51,9 +51,11 @@ pub fn solve_a(input_file_path: &str) -> u32 {
     })
     .map(|f| f.result())
     .sum::<u32>()
+    .try_into()
+    .unwrap()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
+pub fn solve_b(input_file_path: &str) -> u64 {
   BufReader::new(fs::File::open(input_file_path).unwrap())
         .lines()
         .map(|line| {
@@ -106,6 +108,8 @@ pub fn solve_b(input_file_path: &str) -> u32 {
         )
         .map(|f| f.result())
         .sum::<u32>()
+        .try_into()
+        .unwrap()
 }
 
 #[cfg(test)]

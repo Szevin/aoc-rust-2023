@@ -24,7 +24,7 @@ fn parse_input(input: &str) -> (u32, Vec<u32>, Vec<u32>) {
   )
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
+pub fn solve_a(input_file_path: &str) -> u64 {
   BufReader::new(fs::File::open(input_file_path).unwrap())
     .lines()
     .map(|line| parse_input(&line.unwrap()))
@@ -37,12 +37,12 @@ pub fn solve_a(input_file_path: &str) -> u32 {
     })
     .map(|count| match count {
       0 => 0,
-      x => i32::pow(2, (x - 1) as u32) as u32,
+      x => i32::pow(2, (x - 1) as u32) as u64,
     })
     .sum()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
+pub fn solve_b(input_file_path: &str) -> u64 {
   BufReader::new(fs::File::open(input_file_path).unwrap())
     .lines()
     .map(|line| parse_input(&line.unwrap()))
@@ -78,6 +78,8 @@ pub fn solve_b(input_file_path: &str) -> u32 {
     })
     .values()
     .sum::<u32>()
+    .try_into()
+    .unwrap()
 }
 
 #[cfg(test)]

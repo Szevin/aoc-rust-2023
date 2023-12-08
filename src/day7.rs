@@ -3,7 +3,6 @@ use std::collections::HashMap;
 use std::fs;
 use std::io::{BufRead, BufReader};
 use std::ops::Deref;
-use std::str::FromStr;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Copy, Clone)]
 enum Card {
@@ -283,13 +282,13 @@ impl Hand {
     }
   }
 
-  fn debug(&self) {
-    println!(
-      "Cards: {} ({:?})",
-      self.cards.iter().map(|c| c.to_string()).collect::<String>(),
-      self.value
-    );
-  }
+  // fn debug(&self) {
+  //   println!(
+  //     "Cards: {} ({:?})",
+  //     self.cards.iter().map(|c| c.to_string()).collect::<String>(),
+  //     self.value
+  //   );
+  // }
 }
 
 impl PartialEq for Hand {
@@ -308,7 +307,7 @@ impl PartialOrd for Hand {
 
 impl Ord for Hand {
   fn cmp(&self, other: &Self) -> Ordering {
-    if (self.value == other.value) {
+    if self.value == other.value {
       self.cards.cmp(&other.cards)
     } else {
       self.value.cmp(&other.value)
@@ -345,12 +344,12 @@ fn solve(input_file_path: &str, part: &str) -> u32 {
     .sum()
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
-  solve(input_file_path, "a")
+pub fn solve_a(input_file_path: &str) -> u64 {
+  solve(input_file_path, "a").try_into().unwrap()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
-  solve(input_file_path, "b")
+pub fn solve_b(input_file_path: &str) -> u64 {
+  solve(input_file_path, "b").try_into().unwrap()
 }
 
 #[cfg(test)]

@@ -43,7 +43,7 @@ fn solve_quadratic(a: i64, b: i64, c: i64) -> (f64, f64) {
   (x1, x2)
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
+pub fn solve_a(input_file_path: &str) -> u64 {
   let high_scores = parse_input(&fs::read_to_string(input_file_path).unwrap());
 
   high_scores
@@ -54,9 +54,11 @@ pub fn solve_a(input_file_path: &str) -> u32 {
       ((x1.ceil() - x2.floor()).abs() + 1.0) as u32
     })
     .fold(1, |acc, count| acc * count)
+    .try_into()
+    .unwrap()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
+pub fn solve_b(input_file_path: &str) -> u64 {
   let high_score = parse_input(&fs::read_to_string(input_file_path).unwrap())
     .iter()
     .fold(
@@ -76,7 +78,7 @@ pub fn solve_b(input_file_path: &str) -> u32 {
 
   let (x1, x2) = solve_quadratic(-1, high_score.time, -high_score.distance - 1);
 
-  ((x1.ceil() - x2.floor()).abs() + 1.0) as u32
+  ((x1.ceil() - x2.floor()).abs() + 1.0) as u64
 }
 
 #[cfg(test)]

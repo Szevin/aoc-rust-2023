@@ -21,7 +21,7 @@ fn parse_input(input: &str) -> (u32, Vec<(u32, String)>) {
   (score.parse::<u32>().unwrap(), game)
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
+pub fn solve_a(input_file_path: &str) -> u64 {
   BufReader::new(fs::File::open(input_file_path).unwrap())
     .lines()
     .map(|line| parse_input(&line.unwrap()))
@@ -35,9 +35,11 @@ pub fn solve_a(input_file_path: &str) -> u32 {
     })
     .map(|(score, _)| score)
     .sum::<u32>()
+    .try_into()
+    .unwrap()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
+pub fn solve_b(input_file_path: &str) -> u64 {
   BufReader::new(fs::File::open(input_file_path).unwrap())
     .lines()
     .map(|line| parse_input(&line.unwrap()))
@@ -73,6 +75,8 @@ pub fn solve_b(input_file_path: &str) -> u32 {
       game.0 * game.1 * game.2
     })
     .sum::<u32>()
+    .try_into()
+    .unwrap()
 }
 
 #[cfg(test)]

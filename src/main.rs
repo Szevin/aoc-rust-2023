@@ -7,8 +7,9 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
-type Solver = fn(&str) -> u32;
+type Solver = fn(&str) -> u64;
 
 fn main() {
   let args: Vec<_> = std::env::args().collect();
@@ -31,6 +32,8 @@ fn main() {
   solvers.insert("6b".to_string(), day6::solve_b);
   solvers.insert("7a".to_string(), day7::solve_a);
   solvers.insert("7b".to_string(), day7::solve_b);
+  solvers.insert("8a".to_string(), day8::solve_a);
+  solvers.insert("8b".to_string(), day8::solve_b);
 
   let key = format!("{}{}", args[1], args[2]);
 

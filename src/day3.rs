@@ -135,7 +135,7 @@ fn get_numbers_for_valid_chars(board: &String, valid_chars: Vec<char>) -> Vec<Nu
   numbers
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
+pub fn solve_a(input_file_path: &str) -> u64 {
   let board = fs::read_to_string(input_file_path).unwrap();
 
   get_numbers_for_valid_chars(
@@ -144,9 +144,11 @@ pub fn solve_a(input_file_path: &str) -> u32 {
   )
   .iter()
   .fold(0, |acc, number| acc + number.value)
+  .try_into()
+  .unwrap()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
+pub fn solve_b(input_file_path: &str) -> u64 {
   let board = fs::read_to_string(input_file_path).unwrap();
   let numbers = get_numbers_for_valid_chars(&board, ['*'].to_vec());
 
@@ -176,9 +178,11 @@ pub fn solve_b(input_file_path: &str) -> u32 {
     (number.value, other_number_value)
   });
 
-  matching_numbers.fold(0, |acc, (number_value, other_number_value)| {
+  (matching_numbers.fold(0, |acc, (number_value, other_number_value)| {
     acc + number_value * other_number_value
-  }) / 2
+  }) / 2)
+    .try_into()
+    .unwrap()
 }
 
 #[cfg(test)]

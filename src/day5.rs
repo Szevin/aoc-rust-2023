@@ -139,7 +139,7 @@ fn parse_input(input: &str) -> (Vec<i64>, SeedMaps) {
   (seed, seed_map)
 }
 
-pub fn solve_a(input_file_path: &str) -> u32 {
+pub fn solve_a(input_file_path: &str) -> u64 {
   let input = fs::read_to_string(input_file_path).unwrap();
   let (seeds, seed_map) = parse_input(&input);
 
@@ -152,7 +152,7 @@ pub fn solve_a(input_file_path: &str) -> u32 {
     .unwrap()
 }
 
-pub fn solve_b(input_file_path: &str) -> u32 {
+pub fn solve_b(input_file_path: &str) -> u64 {
   let input = fs::read_to_string(input_file_path).unwrap();
   let (seeds, seed_map) = parse_input(&input);
 
