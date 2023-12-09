@@ -8,6 +8,7 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 type Solver = fn(&str) -> u64;
 
@@ -34,6 +35,8 @@ fn main() {
   solvers.insert("7b".to_string(), day7::solve_b);
   solvers.insert("8a".to_string(), day8::solve_a);
   solvers.insert("8b".to_string(), day8::solve_b);
+  solvers.insert("9a".to_string(), day9::solve_a);
+  solvers.insert("9b".to_string(), day9::solve_b);
 
   let key = format!("{}{}", args[1], args[2]);
 
@@ -42,8 +45,8 @@ fn main() {
 
   match solvers.get(&key) {
     Some(solver) => {
-      time = std::time::Instant::now();
       let input = format!(".\\src\\input\\day{}.txt", args[1]);
+      time = std::time::Instant::now();
       let result = solver(input.as_str());
       time_elapsed = time.elapsed().as_secs_f32();
       println!("\nResult: {}", result);
