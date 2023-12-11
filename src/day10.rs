@@ -11,7 +11,7 @@ enum Direction {
 
 type Coord = (usize, usize);
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Pipe {
     symbol: char,
     coord: Coord,
@@ -57,7 +57,7 @@ impl Pipe {
                 'F' => vec![Direction::Right, Direction::Down],
                 '|' => vec![Direction::Up, Direction::Down],
                 '-' => vec![Direction::Left, Direction::Right],
-                '.' => vec![],
+                '.' | '#' => vec![],
                 'S' => vec![
                     Direction::Up,
                     Direction::Down,
@@ -89,11 +89,14 @@ impl Pipes {
             pipes.push(row);
         }
 
-        Pipes {
-            pipes,
+        let mut pipes = Pipes {
             start,
+            pipes,
             main_loop: vec![],
-        }
+        };
+        pipes.solve();
+
+        pipes
     }
 
     fn solve(&mut self) -> &Self {
@@ -153,6 +156,41 @@ impl Pipes {
         }
         next_pipe
     }
+
+    fn expand(&mut self) -> &Self {
+        let mut pipes = vec![];
+
+        for (y, row) in self.pipes.iter().enumerate() {
+            let mut new_row = vec![];
+
+            for (x, pipe) in row.iter().enumerate() {
+                if pipe.symbol == '.' || !self.main_loop.contains(&pipe.coord) {
+                    new_row.push(Pipe::new('.', y, new_row.len()));
+                    new_row.push(Pipe::new('#', y, x + 1));
+                }
+            }
+
+            pipes.push(new_row);
+            let empty_row = vec![Pipe::new('#', y + 1, 0); row.len() * 2];
+            pipes.push(empty_row);
+        }
+
+        self.pipes = pipes;
+        self
+    }
+
+    fn debug(&self) {
+        for row in &self.pipes {
+            for pipe in row {
+                if self.main_loop.contains(&pipe.coord) {
+                    print!("{}", pipe.symbol.to_string().red());
+                } else {
+                    print!("{}", pipe.symbol);
+                }
+            }
+            println!();
+        }
+    }
 }
 
 fn parse_input(input: &str) -> Pipes {
@@ -161,27 +199,16 @@ fn parse_input(input: &str) -> Pipes {
 
 pub fn solve_a(input_file_path: &str) -> u64 {
     let input = fs::read_to_string(input_file_path).unwrap();
-    let mut pipes = parse_input(&input);
-    let pipes = pipes.solve();
-
-    for row in &pipes.pipes {
-        for pipe in row {
-            if pipes.main_loop.contains(&pipe.coord) {
-                print!("{}", pipe.symbol.to_string().red());
-            } else {
-                print!("{}", pipe.symbol);
-            }
-        }
-        println!();
-    }
+    let pipes = parse_input(&input);
 
     ((pipes.main_loop.len() + 1) / 2) as u64
 }
 
 pub fn solve_b(input_file_path: &str) -> u64 {
     let input = fs::read_to_string(input_file_path).unwrap();
+    let pipes = parse_input(&input).expand().debug();
 
-    2
+    3
 }
 
 #[cfg(test)]
