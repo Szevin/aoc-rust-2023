@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 mod day1;
 mod day10;
+mod day11;
 mod day2;
 mod day3;
 mod day4;
@@ -40,22 +41,31 @@ fn main() {
   solvers.insert("9b".to_string(), day9::solve_b);
   solvers.insert("10a".to_string(), day10::solve_a);
   solvers.insert("10b".to_string(), day10::solve_b);
+  solvers.insert("11a".to_string(), day11::solve_a);
 
+  let input = format!(".\\src\\input\\day{}.txt", args[1]);
   let key = format!("{}{}", args[1], args[2]);
 
+  let result;
   let time;
   let time_elapsed;
 
-  match solvers.get(&key) {
-    Some(solver) => {
-      let input = format!(".\\src\\input\\day{}.txt", args[1]);
+  match &key as &str {
+    "11b" => {
       time = std::time::Instant::now();
-      let result = solver(input.as_str());
+      result = day11::solve_b(&input, 1000000);
       time_elapsed = time.elapsed().as_secs_f32();
-      println!("\nResult: {}", result);
     }
-    None => panic!("Unknown day or part"),
+    other => match solvers.get(other) {
+      Some(solver) => {
+        time = std::time::Instant::now();
+        result = solver(input.as_str());
+        time_elapsed = time.elapsed().as_secs_f32();
+      }
+      None => panic!("Unknown day or part"),
+    },
   }
 
+  println!("\nResult: {}", result);
   println!("\nTime: {}s", time_elapsed);
 }
